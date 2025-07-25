@@ -1,8 +1,6 @@
 # Personalized Medical Recommendation System
-![Recording 2024-08-28 145948 (3)](https://github.com/user-attachments/assets/7896a626-f78c-4c7f-ac57-48fe12cf5cd6)
 #
 # Dashboard Demo (click on below Dashboard video screen)
-https://github.com/user-attachments/assets/104ad424-d87a-44bd-9279-11644025efd1
 
 ## Personalized Medical Recommendation System
 Welcome to our Flask API-based Machine Learning model, designed as a comprehensive Recommendation and Prediction System. Today, I'm excited to present this one-screen dashboard that exemplifies our solution.  
@@ -119,7 +117,6 @@ This project utilizes diagnoses data to:
 1. Documented optimization and evaluation process 
 2. Model performance display
 ![image](https://github.com/user-attachments/assets/8d1dcaee-7c0d-4a24-857e-e70df4613298)
-![image](https://github.com/user-attachments/assets/d5e54f23-eced-4a72-b95a-be6868726451)
 
 
 
