@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Health Care Center</title>
+    <meta name="description" content="Personalized Medical Recommendation System powered by AI and Machine Learning.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              primary: '#6366f1',
+              accent: '#06b6d4',
+              card: '#f9fafb',
+              cardDark: '#23272f',
+              border: '#e5e7eb',
+            },
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+            },
+            backgroundImage: {
+              'soft-gradient': 'linear-gradient(135deg, #f0f4ff 0%, #e0e7ff 100%)',
+              'soft-gradient-dark': 'linear-gradient(135deg, #23272f 0%, #2d3748 100%)',
+            },
+            boxShadow: {
+              card: '0 4px 24px 0 rgba(99,102,241,0.08)',
+            },
+            animation: {
+              fadein: 'fadein 1s ease-in',
+              slideup: 'slideup 0.7s cubic-bezier(.4,0,.2,1) both',
+            },
+            keyframes: {
+              fadein: {
+                '0%': { opacity: 0 },
+                '100%': { opacity: 1 },
+              },
+              slideup: {
+                '0%': { opacity: 0, transform: 'translateY(40px)' },
+                '100%': { opacity: 1, transform: 'translateY(0)' },
+              },
+            },
+          },
+        },
+      }
+    </script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tippy.js@6/dist/tippy.css" />
+    <script src="https://cdn.jsdelivr.net/npm/tippy.js@6"></script>
+    <script src="https://cdn.jsdelivr.net/npm/progressbar.js"></script>
+    <style>
+      body { font-family: 'Inter', sans-serif; }
+      .card-hover {
+        transition: transform 0.2s cubic-bezier(.4,0,.2,1), box-shadow 0.2s;
+      }
+      .card-hover:hover {
+        transform: translateY(-6px) scale(1.025) rotateZ(-1deg);
+        box-shadow: 0 8px 32px 0 rgba(99,102,241,0.18), 0 1.5px 6px 0 rgba(6,182,212,0.10);
+        z-index: 2;
+      }
+      .fade-in-up {
+        opacity: 0;
+        transform: translateY(30px);
+        animation: fadeInUp 0.7s cubic-bezier(.4,0,.2,1) forwards;
+      }
+      @keyframes fadeInUp {
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+    </style>
+  </head>
+  <body class="bg-card dark:bg-cardDark text-gray-900 dark:text-gray-100 min-h-screen transition-colors duration-500 relative overflow-x-hidden">
+    <!-- SVG Abstract Background -->
+    <svg class="absolute top-0 left-0 w-full h-80 -z-10 opacity-60" viewBox="0 0 1440 320"><path fill="#6366f1" fill-opacity="0.12" d="M0,160L60,170.7C120,181,240,203,360,197.3C480,192,600,160,720,133.3C840,107,960,85,1080,101.3C1200,117,1320,171,1380,197.3L1440,224L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z"></path></svg>
+      <!-- Navbar -->
+    <header class="bg-white/90 dark:bg-zinc-900/90 shadow-md backdrop-blur-md sticky top-0 z-30 animate-fadein">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
+        <div class="flex items-center gap-3">
+          <i class="fa-solid fa-heart-pulse text-primary text-2xl"></i>
+          <span class="text-xl font-bold text-primary dark:text-accent tracking-tight">Health Care Center</span>
+        </div>
+        <nav class="hidden md:flex gap-6 text-base font-medium">
+          <a href="#" class="hover:text-primary dark:hover:text-accent transition">Home</a>
+          <a href="/about" class="hover:text-primary dark:hover:text-accent transition">About</a>
+          <a href="/contact" class="hover:text-primary dark:hover:text-accent transition">Contact</a>
+          <a href="/developer" class="hover:text-primary dark:hover:text-accent transition">Developer</a>
+          <a href="/blog" class="hover:text-primary dark:hover:text-accent transition">Blog</a>
+    </nav>
+        <button id="theme-toggle" class="ml-4 rounded-full p-2 bg-white/80 dark:bg-zinc-800/80 shadow transition hover:scale-110" aria-label="Toggle dark mode">
+          <i class="fa-solid fa-moon text-primary dark:text-accent"></i>
+        </button>
+      </div>
+    </header>
+    <main class="max-w-5xl mx-auto py-6 px-2 animate-fadein flex flex-col md:flex-row gap-4">
+      <!-- Main Content Block -->
+      <div class="flex-1 flex flex-col gap-4">
+        <div class="flex flex-col md:flex-row gap-6 items-center">
+          <!-- Left Container for GIF & Lottie -->
+          <div class="md:w-1/3 w-full flex-shrink-0 animate-fadein flex flex-col items-center gap-2">
+            <img src="https://i.pinimg.com/originals/f9/41/8e/f9418e8dfea9d656942880dac3c2d3c1.gif" alt="Healthcare Animation" class="rounded-2xl shadow-xl w-full max-w-xs md:max-w-full animate-slideup object-contain" loading="lazy" />
+            <!-- Lottie Animation for loading/predicting -->
+            <div id="lottie-loading" class="hidden w-16 h-16 mx-auto">
+              <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+              <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_j1adxtyb.json" background="transparent" speed="1" style="width: 64px; height: 64px;" loop autoplay></lottie-player>
+            </div>
+          </div>
+     <!-- Right Container for Main Content -->
+          <div class="md:w-2/3 w-full animate-fadein">
+            <form id="predict-form" action="/predict" method="post" class="bg-white/90 dark:bg-zinc-900/90 rounded-2xl shadow-card p-6 space-y-4 animate-slideup">
+              <h1 class="text-2xl font-extrabold mb-1 text-primary dark:text-accent flex items-center gap-2"><i class="fa-solid fa-stethoscope"></i> Smart Healthcare & AI Recommendations</h1>
+              <div class="space-y-3">
+                <div class="relative">
+                  <label for="name" class="block font-semibold mb-1">Name</label>
+                  <div class="flex items-center">
+                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-primary"><i class="fa-solid fa-user"></i></span>
+                    <input type="text" class="w-full pl-10 border border-border dark:border-zinc-700 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-accent bg-card dark:bg-zinc-800 transition" id="name" name="name" placeholder="Enter your name" required>
+                  </div>
+                </div>
+                <div class="relative">
+                  <label for="age" class="block font-semibold mb-1">Age</label>
+                  <div class="flex items-center">
+                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-primary"><i class="fa-solid fa-hashtag"></i></span>
+                    <input type="number" class="w-full pl-10 border border-border dark:border-zinc-700 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-accent bg-card dark:bg-zinc-800 transition" id="age" name="age" placeholder="Enter your age" required>
+                  </div>
+                </div>
+                <div class="relative">
+                  <label for="location" class="block font-semibold mb-1">Location</label>
+                  <div class="flex items-center">
+                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-primary"><i class="fa-solid fa-location-dot"></i></span>
+                    <input type="text" class="w-full pl-10 border border-border dark:border-zinc-700 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-accent bg-card dark:bg-zinc-800 transition" id="location" name="location" placeholder="Enter your location" required>
+                  </div>
+                </div>
+                <div class="relative">
+                  <label for="symptoms" class="block font-semibold mb-1">Symptoms</label>
+                  <div class="flex items-center">
+                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-primary"><i class="fa-solid fa-notes-medical"></i></span>
+                    <input type="text" class="w-full pl-10 border border-border dark:border-zinc-700 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-accent bg-card dark:bg-zinc-800 transition" id="symptoms" name="symptoms" placeholder="Type symptoms such as itching, sleeping, aching etc">
+                  </div>
+                </div>
+                <button type="button" id="startSpeechRecognition" class="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-primary via-accent to-blue-400 text-white py-3 rounded-xl font-semibold shadow-lg transition hover:scale-105 hover:shadow-xl focus:outline-none animate-fadein"><i class="fa-solid fa-microphone"></i> Start Speech Recognition</button>
+                <div name="mysysms" id="transcription" class="text-sm text-gray-600 dark:text-gray-300"></div>
+                {% if message %}
+                <p class="text-red-600 dark:text-red-400 animate-fadein">{{ message }}</p>
+                {% endif %}
+                <button type="submit" id="predict-btn" class="w-full bg-gradient-to-r from-accent via-primary to-blue-400 text-white py-3 rounded-xl font-bold text-lg shadow-lg transition hover:scale-105 hover:shadow-xl focus:outline-none animate-fadein flex items-center justify-center gap-2" style="box-shadow:0 4px 24px 0 rgba(99,102,241,0.18);font-weight:700;"><i class="fa-solid fa-magnifying-glass-chart"></i> Predict</button>
+              </div>
+            </form>
+<!-- Results -->
+            <div id="results-section" class="mt-6 animate-fadein">
+         {% if predicted_disease %}
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Disease Card (Expandable) -->
+                <div class="card-hover fade-in-up bg-gradient-to-br from-primary/10 via-accent/10 to-blue-400/10 rounded-2xl shadow-card p-4 animate-slideup transition-all duration-300 group cursor-pointer" onclick="toggleCard('disease')">
+                  <div class="flex items-center justify-between">
+                    <h2 class="text-lg font-bold text-primary dark:text-accent mb-1 flex items-center gap-2"><i class="fa-solid fa-virus-covid"></i> Disease</h2>
+                    <i class="fa-solid fa-chevron-down transition-transform group-[.expanded]:rotate-180"></i>
+                </div>
+                  <div id="card-disease" class="expandable-content"> <p class="text-base">{{ predicted_disease }}</p> </div>
+                </div>
+                <!-- Description Card (Expandable) -->
+                <div class="card-hover fade-in-up bg-gradient-to-br from-blue-400/10 via-accent/10 to-primary/10 rounded-2xl shadow-card p-4 animate-slideup transition-all duration-300 group cursor-pointer" onclick="toggleCard('description')">
+                  <div class="flex items-center justify-between">
+                    <h2 class="text-lg font-bold text-blue-600 dark:text-accent mb-1 flex items-center gap-2"><i class="fa-solid fa-file-medical"></i> Description</h2>
+                    <i class="fa-solid fa-chevron-down transition-transform group-[.expanded]:rotate-180"></i>
+                </div>
+                  <div id="card-description" class="expandable-content"> <p class="text-base">{{ dis_des }}</p> </div>
+                </div>
+                <!-- Precautions Card (Expandable) -->
+                <div class="card-hover fade-in-up bg-gradient-to-br from-green-400/10 via-accent/10 to-primary/10 rounded-2xl shadow-card p-4 animate-slideup transition-all duration-300 group cursor-pointer" onclick="toggleCard('precaution')">
+                  <div class="flex items-center justify-between">
+                    <h2 class="text-lg font-bold text-green-600 dark:text-accent mb-1 flex items-center gap-2"><i class="fa-solid fa-shield-virus"></i> Precautions</h2>
+                    <i class="fa-solid fa-chevron-down transition-transform group-[.expanded]:rotate-180"></i>
+                </div>
+                  <div id="card-precaution" class="expandable-content"> <ul class="list-disc list-inside text-base space-y-1">{% for i in my_precautions %}<li>{{ i }}</li>{% endfor %}</ul> </div>
+                </div>
+                <!-- Medications Card (Expandable) -->
+                <div class="card-hover fade-in-up bg-gradient-to-br from-pink-400/10 via-accent/10 to-primary/10 rounded-2xl shadow-card p-4 animate-slideup transition-all duration-300 group cursor-pointer" onclick="toggleCard('medications')">
+                  <div class="flex items-center justify-between">
+                    <h2 class="text-lg font-bold text-pink-600 dark:text-accent mb-1 flex items-center gap-2"><i class="fa-solid fa-pills"></i> Medications</h2>
+                    <i class="fa-solid fa-chevron-down transition-transform group-[.expanded]:rotate-180"></i>
+            </div>
+                  <div id="card-medications" class="expandable-content"> <ul class="list-disc list-inside text-base space-y-1">{% for i in medications %}<li>{{ i }}</li>{% endfor %}</ul> </div>
+                </div>
+                <!-- Workouts Card (Expandable) -->
+                <div class="card-hover fade-in-up bg-gradient-to-br from-yellow-400/10 via-accent/10 to-primary/10 rounded-2xl shadow-card p-4 animate-slideup transition-all duration-300 group cursor-pointer" onclick="toggleCard('workouts')">
+                  <div class="flex items-center justify-between">
+                    <h2 class="text-lg font-bold text-yellow-600 dark:text-accent mb-1 flex items-center gap-2"><i class="fa-solid fa-dumbbell"></i> Workouts</h2>
+                    <i class="fa-solid fa-chevron-down transition-transform group-[.expanded]:rotate-180"></i>
+                  </div>
+                  <div id="card-workouts" class="expandable-content"> <ul class="list-disc list-inside text-base space-y-1">{% for i in workout %}<li>{{ i }}</li>{% endfor %}</ul> </div>
+                </div>
+                <!-- Diet Card (Expandable) -->
+                <div class="card-hover fade-in-up bg-gradient-to-br from-teal-400/10 via-accent/10 to-primary/10 rounded-2xl shadow-card p-4 animate-slideup transition-all duration-300 group cursor-pointer" onclick="toggleCard('diet')">
+                  <div class="flex items-center justify-between">
+                    <h2 class="text-lg font-bold text-teal-600 dark:text-accent mb-1 flex items-center gap-2"><i class="fa-solid fa-apple-whole"></i> Diet</h2>
+                    <i class="fa-solid fa-chevron-down transition-transform group-[.expanded]:rotate-180"></i>
+            </div>
+                  <div id="card-diet" class="expandable-content"> <ul class="list-disc list-inside text-base space-y-1">{% for i in my_diet %}<li>{{ i }}</li>{% endfor %}</ul> </div>
+                </div>
+                </div>
+              {% endif %}
+            </div>
+        </div>
+    </div>
+        <!-- Info/Side Panel -->
+        <aside class="w-full md:w-80 mt-8 md:mt-0 md:ml-8 flex flex-col gap-6 animate-fadein">
+          <div class="bg-white/80 dark:bg-zinc-900/80 rounded-2xl shadow-card p-6 flex flex-col gap-2 animate-slideup">
+            <h3 class="text-lg font-bold text-primary flex items-center gap-2"><i class="fa-solid fa-lightbulb"></i> AI Health Tips</h3>
+            <ul class="text-sm text-gray-700 dark:text-gray-300 space-y-1">
+              <li>💡 "AI doesn't replace doctors — it empowers them."</li>
+              <li>🩺 "Your data is private and secure."</li>
+              <li>🌱 "Healthy habits, healthy life."</li>
+              <li>🤖 "AI learns from millions of cases to help you."</li>
+                    </ul>
+                </div>
+          <div class="bg-white/80 dark:bg-zinc-900/80 rounded-2xl shadow-card p-6 animate-slideup">
+            <h3 class="text-lg font-bold text-accent flex items-center gap-2"><i class="fa-solid fa-circle-info"></i> How it works</h3>
+            <ol class="list-decimal list-inside text-sm space-y-1 mt-2">
+              <li>Enter your details and symptoms.</li>
+              <li>Click Predict — our AI analyzes your input.</li>
+              <li>Model predicts the most likely condition.</li>
+              <li>Get personalized recommendations instantly!</li>
+            </ol>
+            </div>
+          <div class="bg-white/80 dark:bg-zinc-900/80 rounded-2xl shadow-card p-6 animate-slideup">
+            <h3 class="text-lg font-bold text-blue-600 flex items-center gap-2"><i class="fa-solid fa-brain"></i> About this AI Model</h3>
+            <p class="text-sm mt-2">This app uses a machine learning model (Random Forest/SVM) trained on real medical data to predict diseases and recommend care. It learns from thousands of cases to give you the best advice.</p>
+        </div>
+          <div class="bg-white/80 dark:bg-zinc-900/80 rounded-2xl shadow-card p-6 animate-slideup">
+            <h3 class="text-lg font-bold text-green-600 flex items-center gap-2"><i class="fa-solid fa-gauge-high"></i> Model Confidence Score</h3>
+            <div class="w-full bg-gray-200 rounded-full h-4 dark:bg-zinc-800 mt-2">
+              <div class="bg-gradient-to-r from-green-400 via-yellow-400 to-red-400 h-4 rounded-full transition-all duration-700" style="width: 87%;"></div>
+            </div>
+            <div class="text-right text-xs mt-1 text-gray-500">87% confidence</div>
+        </div>
+        </aside>
+    </div>
+    </main>
+    <footer class="mt-16 py-6 text-center text-sm text-gray-500 dark:text-gray-400 animate-fadein bg-gradient-to-r from-primary/10 via-accent/10 to-blue-400/10">
+      <div class="flex flex-col md:flex-row items-center justify-between max-w-5xl mx-auto px-4 gap-4">
+        <div>&copy; {{ 2024 }} Health Care Center. All rights reserved.</div>
+        <div class="flex gap-4 text-lg">
+          <a href="#" class="hover:text-primary"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="hover:text-primary"><i class="fab fa-linkedin"></i></a>
+          <a href="#" class="hover:text-primary"><i class="fab fa-github"></i></a>
+        </div>
+        <div class="flex gap-4 text-sm">
+          <a href="/about" class="hover:text-primary">About</a>
+          <a href="/contact" class="hover:text-primary">Contact</a>
+        </div>
+    </div>
+    </footer>
+    <script>
+      // Expandable/collapsible cards
+      function toggleCard(card) {
+        const el = document.getElementById('card-' + card);
+        el.classList.toggle('hidden');
+        el.parentElement.classList.toggle('expanded');
+      }
+      // Dark/Light mode toggle
+      const themeToggle = document.getElementById('theme-toggle');
+      themeToggle.addEventListener('click', () => {
+        document.documentElement.classList.toggle('dark');
+        localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+      });
+      if (localStorage.getItem('theme') === 'dark') {
+        document.documentElement.classList.add('dark');
+      }
+      // Speech recognition
+        const startSpeechRecognitionButton = document.getElementById('startSpeechRecognition');
+        const transcriptionDiv = document.getElementById('transcription');
+        startSpeechRecognitionButton.addEventListener('click', startSpeechRecognition);
+        function startSpeechRecognition() {
+        document.getElementById('lottie-loading').classList.remove('hidden');
+        const recognition = new webkitSpeechRecognition();
+        recognition.lang = 'en-US';
+            recognition.onresult = function (event) {
+                const result = event.results[0][0].transcript;
+                transcriptionDiv.textContent = result;
+          document.getElementById('lottie-loading').classList.add('hidden');
+            };
+            recognition.onend = function () {
+          document.getElementById('lottie-loading').classList.add('hidden');
+            };
+            recognition.start();
+        }
+      // Hide all expandable content by default
+      document.querySelectorAll('.expandable-content').forEach(el => el.classList.add('hidden'));
+      // Tooltips
+      tippy('[data-tippy-content]');
+      // Confidence Score Circular Progress
+      if (document.getElementById('confidence-circle')) {
+        var bar = new ProgressBar.Circle('#confidence-circle', {
+          color: '#22c55e',
+          trailColor: '#e5e7eb',
+          strokeWidth: 8,
+          trailWidth: 8,
+          easing: 'easeInOut',
+          duration: 1400,
+          text: {
+            autoStyleContainer: false
+          },
+          from: { color: '#22c55e', width: 8 },
+          to: { color: '#f59e42', width: 8 },
+          step: function(state, circle) {
+            circle.path.setAttribute('stroke', state.color);
+            circle.path.setAttribute('stroke-width', state.width);
+            var value = Math.round(circle.value() * 100);
+            circle.setText(value + '%');
+          }
+        });
+        bar.animate(0.87); // 87%
+      }
+      // Smooth scroll to results on Predict
+      document.getElementById('predict-form').addEventListener('submit', function(e) {
+        setTimeout(function() {
+          document.getElementById('results-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+      });
+    </script>
+  </body>
+</html>
+
